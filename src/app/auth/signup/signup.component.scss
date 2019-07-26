@@ -1,0 +1,11 @@
+.radio-photo {
+  & + label {
+    border: 3px solid transparent;
+    transition: opacity 0.2s;
+    background-clip: content-box;
+  }
+  &:checked + label {
+    border: 3px solid #0062ff;
+    opacity: 1;
+  }
+}

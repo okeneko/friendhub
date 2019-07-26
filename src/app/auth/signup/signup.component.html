@@ -1,0 +1,258 @@
+<div
+  data-modal
+  id="signup"
+  class="bx--modal "
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="my-modal-label"
+  aria-describedby="my-modal-heading"
+  tabindex="-1"
+>
+  <div
+    class="bx--modal-container overflow-auto sm:w-full sm:max-h-full md:w-3/4 md:max-h-9/10 lg:w-1/2"
+  >
+    <form [formGroup]="signUpForm" (ngSubmit)="signUp()" autocomplete="off">
+      <div class="bx--modal-header sticky top-0 w-full bg-carbongray py-4 m-0 z-50">
+        <p class="bx--modal-header__heading bx--type-beta" id="my-modal-heading">
+          Sign up
+        </p>
+        <button class="bx--modal-close" type="button" data-modal-close aria-label="close modal">
+          <ibm-icon-close16></ibm-icon-close16>
+        </button>
+      </div>
+      <div class="bx--modal-content w-full px-4 mb-0">
+        <div class="bx--form-item mb-4">
+          <label for="firstName" class="bx--label"
+            >First Name<span class="text-red-600">*</span>
+          </label>
+          <div
+            *ngIf="submitted && f.firstName.hasError('required')"
+            class="bx--form__helper-text text-red-600"
+          >
+            First name is required.
+          </div>
+          <input
+            type="text"
+            formControlName="firstName"
+            [ngClass]="{
+              'bx--text-input': true,
+              'border-red-600': submitted && f.firstName.hasError('required')
+            }"
+            id="firstName"
+            placeholder="First Name"
+          />
+        </div>
+        <div class="bx--form-item mb-4">
+          <label for="lastName" class="bx--label"
+            >Last Name<span class="text-red-600">*</span></label
+          >
+          <div
+            *ngIf="submitted && f.lastName.hasError('required')"
+            class="bx--form__helper-text text-red-600"
+          >
+            Last name is required.
+          </div>
+          <input
+            type="text"
+            formControlName="lastName"
+            [ngClass]="{
+              'bx--text-input': true,
+              'border-red-600': submitted && f.lastName.hasError('required')
+            }"
+            id="lastName"
+            placeholder="Last Name"
+          />
+        </div>
+        <fieldset class="bx--fieldset mb-4">
+          <legend class="bx--label">Gender<span class="text-red-600">*</span></legend>
+          <div class="bx--form-item">
+            <div class="bx--radio-button-group ">
+              <div class="bx--radio-button-wrapper">
+                <input
+                  id="male"
+                  class="bx--radio-button"
+                  type="radio"
+                  value="male"
+                  name="gender"
+                  tabindex="0"
+                  formControlName="gender"
+                />
+                <label for="male" class="bx--radio-button__label">
+                  <span class="bx--radio-button__appearance"></span>
+                  <span class="bx--radio-button__label-text">Male</span>
+                </label>
+              </div>
+              <div class="bx--radio-button-wrapper">
+                <input
+                  id="female"
+                  class="bx--radio-button"
+                  type="radio"
+                  value="female"
+                  name="gender"
+                  tabindex="0"
+                  formControlName="gender"
+                />
+                <label for="female" class="bx--radio-button__label">
+                  <span class="bx--radio-button__appearance"></span>
+                  <span class="bx--radio-button__label-text">Female</span>
+                </label>
+              </div>
+              <div class="bx--radio-button-wrapper">
+                <input
+                  id="none"
+                  class="bx--radio-button"
+                  type="radio"
+                  value=""
+                  name="gender"
+                  tabindex="0"
+                  formControlName="gender"
+                  checked
+                />
+                <label for="none" class="bx--radio-button__label">
+                  <span class="bx--radio-button__appearance"></span>
+                  <span class="bx--radio-button__label-text">Other</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div class="bx--form-item mb-4">
+          <label for="email" class="bx--label">Email<span class="text-red-600">*</span></label>
+          <div class="bx--form__helper-text text-red-600">
+            <span *ngIf="submitted && f.email.hasError('required')">
+              Email is required
+            </span>
+            <span *ngIf="submitted && f.email.hasError('email')">
+              The value inserted is not an email.
+            </span>
+          </div>
+          <input
+            type="email"
+            formControlName="email"
+            [ngClass]="{
+              'bx--text-input': true,
+              'border-red-600': submitted && f.email.hasError('email')
+            }"
+            id="email"
+            placeholder="Email"
+          />
+        </div>
+        <div class="flex">
+          <div class="bx--form-item mb-4 mr-4">
+            <label for="password" class="bx--label"
+              >Password<span class="text-red-600">*</span></label
+            >
+            <div class="bx--form__helper-text text-red-600">
+              <span *ngIf="submitted && f.password.hasError('required')">
+                Password is required
+              </span>
+              <span *ngIf="submitted && f.password.hasError('minLength')">
+                Password must be at least 6 characters long.
+              </span>
+            </div>
+            <input
+              type="password"
+              formControlName="password"
+              [ngClass]="{
+                'bx--text-input': true,
+                'border-red-600': submitted && f.password.hasError('required')
+              }"
+              id="password"
+              placeholder="Password"
+            />
+          </div>
+          <div class="bx--form-item mb-4">
+            <label for="passwordAgain" class="bx--label"
+              >Repeat Password<span class="text-red-600">*</span></label
+            >
+            <div class="bx--form__helper-text text-red-600">
+              <span *ngIf="submitted && f.passwordAgain.hasError('required')">
+                Password is required
+              </span>
+              <span
+                *ngIf="
+                  submitted &&
+                  !f.passwordAgain.hasError('required') &&
+                  signUpForm.hasError('passwordsDontMatch')
+                "
+              >
+                Passwords don't match
+              </span>
+            </div>
+            <input
+              type="password"
+              formControlName="passwordAgain"
+              [ngClass]="{
+                'bx--text-input': true,
+                'border-red-600': submitted && f.passwordAgain.hasError('required')
+              }"
+              id="passwordAgain"
+              placeholder="Repeat Password"
+            />
+          </div>
+        </div>
+        <div class="bx--form-item mb-4">
+          <div class="flex justify-between w-full">
+            <div>
+              <label for="photos" class="bx--label">Profile picture</label>
+              <div class="bx--form__helper-text">
+                Choose a random image or keep the default one.
+              </div>
+            </div>
+            <button
+              type="button"
+              class="flex-half bx--btn bx--btn--secondary bx--btn--sm mb-4 ml-4"
+              *ngIf="photos.length === 0"
+              (click)="generatePhotos()"
+            >
+              Generate profile pictures
+            </button>
+            <button
+              type="button"
+              class="flex-half bx--btn bx--btn--secondary bx--btn--sm mb-4 ml-4"
+              *ngIf="photos.length > 0"
+              (click)="cancelGeneratedPhotos()"
+            >
+              Cancel
+            </button>
+          </div>
+          <div class="flex justify-center w-full" *ngIf="photos.length === 0">
+            <div
+              class="bg-contain bg-no-repeat inline-block w-20 h-20 rounded-full"
+              [style.background-image]="'url(' + defaultPhoto + ')'"
+            ></div>
+          </div>
+          <div class="flex flex-wrap items-center justify-around w-full" *ngIf="photos.length > 0">
+            <div *ngFor="let photoData of photos; index as i">
+              <input
+                id="photo{{ i }}"
+                type="radio"
+                value="{{ photoData.id }}"
+                name="photo"
+                formControlName="photo"
+                class="radio-photo hidden"
+              />
+              <label
+                class="cursor-pointer bg-contain bg-no-repeat inline-block w-20 h-20 rounded-full opacity-75 hover:opacity-100"
+                for="photo{{ i }}"
+                [style.background-image]="
+                  'url(https://randomuser.me/api/portraits/' +
+                  photoData.gender +
+                  '/' +
+                  photoData.id +
+                  '.jpg)'
+                "
+              >
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bx--modal-footer sticky bottom-0">
+        <button class="bx--btn bx--btn--primary" type="submit">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
