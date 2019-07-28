@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { Friend, FriendService } from '../friend.service';
 
 export interface User {
@@ -30,9 +30,15 @@ export class AuthService {
     this.user = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+          const userObs = this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+          return userObs.pipe(
+            map(u => {
+              u.uid = user.uid;
+              return u;
+            })
+          );
         } else {
-          return null;
+          return of(null);
         }
       })
     );
@@ -55,7 +61,15 @@ export class AuthService {
         friendsCollection.doc<Friend>(friend.username).set(friend);
       });
     } catch (error) {
-      return error;
+      throw error;
     }
+  }
+
+  async login(email: string, password: string) {
+    await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+
+  async logout() {
+    await this.afAuth.auth.signOut();
   }
 }

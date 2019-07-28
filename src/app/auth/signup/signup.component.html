@@ -125,13 +125,17 @@
             <span *ngIf="submitted && f.email.hasError('email')">
               The value inserted is not an email.
             </span>
+            <span *ngIf="submitted && f.email.hasError('notExists')">
+              This email is already in use.
+            </span>
           </div>
           <input
             type="email"
             formControlName="email"
             [ngClass]="{
               'bx--text-input': true,
-              'border-red-600': submitted && f.email.hasError('email')
+              'border-red-600': submitted && f.email.hasError('email'),
+              'border-red-600': submitted && f.email.hasError('notExists')
             }"
             id="email"
             placeholder="Email"

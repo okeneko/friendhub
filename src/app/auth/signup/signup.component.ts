@@ -1,6 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import { Modal } from 'carbon-components';
+
 import { User, AuthService } from '../auth.service';
 import { FriendService } from '../../friend.service';
 
@@ -10,10 +12,11 @@ import { FriendService } from '../../friend.service';
   styleUrls: ['./signup.component.scss']
 })
 export class SignUpComponent implements OnInit {
+  modal: any;
   signUpForm: FormGroup;
   submitted: boolean;
   defaultPhoto =
-    'https://pixabay.com/get/5fe7d6474c52b10ff3d89938b977692b083edbe35750724b71267c/blank-profile-picture-973460_640.png';
+    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png';
   photos = [];
 
   constructor(
@@ -23,6 +26,8 @@ export class SignUpComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    Modal.init();
+    this.modal = Modal.create(document.getElementById('signup'));
     this.submitted = false;
     this.signUpForm = this.fb.group(
       {
@@ -62,9 +67,14 @@ export class SignUpComponent implements OnInit {
         // If no gender is specified, randomize it
         gender = ['men', 'women'][Math.floor(Math.random() * 2)];
       }
-      const randomNumber = Math.floor(Math.random() * 99);
+      const randomNumber = this.getRandomNumber();
       this.photos.push({ gender, id: randomNumber });
     }
+  }
+
+  getRandomNumber() {
+    const num = Math.floor(Math.random() * 99);
+    return this.photos.map(({ id }) => id).includes(num) ? this.getRandomNumber() : num;
   }
 
   cancelGeneratedPhotos() {
@@ -86,7 +96,7 @@ export class SignUpComponent implements OnInit {
     return gender;
   }
 
-  signUp() {
+  async signUp() {
     this.submitted = true;
     if (this.signUpForm.invalid) {
       return;
@@ -104,9 +114,14 @@ export class SignUpComponent implements OnInit {
       email: this.f.email.value,
       photoURL: url
     };
-    this.authService.emailSignUp(user, this.f.password.value).then(res => {
-      console.log(res);
-    });
+    try {
+      await this.authService.emailSignUp(user, this.f.password.value);
+      this.modal.hide();
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        this.f.email.setErrors({ notExists: true });
+      }
+    }
     // IDEA: modal with loading that displays either error or success!
   }
 

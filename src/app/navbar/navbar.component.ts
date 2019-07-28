@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Modal } from 'carbon-components';
-import { FriendService } from '../friend.service';
+import { FriendService, Friend } from '../friend.service';
+import { Observable, of } from 'rxjs';
+import { AuthService, User } from '../auth/auth.service';
+import { switchMap } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-navbar',
@@ -9,13 +12,28 @@ import { FriendService } from '../friend.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  constructor(private friendService: FriendService) {}
+  friends: Observable<Friend[]>;
+
+  constructor(private auth: AuthService, private afs: AngularFirestore) {}
 
   ngOnInit() {
-    Modal.init();
+    this.friends = this.auth.user.pipe(
+      switchMap(user => {
+        if (user) {
+          const userDoc = this.afs.doc<User>(`users/${user.uid}`);
+          return userDoc.collection<Friend>('friends').valueChanges();
+        } else {
+          return of(null);
+        }
+      })
+    );
   }
 
   async login() {
-    console.log(await this.friendService.getFirstFriends());
+    await this.auth.login('trixie@wow.co', 'trixiemattel');
+  }
+
+  async logout() {
+    await this.auth.logout();
   }
 }

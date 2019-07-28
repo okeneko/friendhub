@@ -1,14 +1,27 @@
 <nav class="flex justify-between items-center flex-wrap p-3">
   <h1 class="text-3xl mr-3">FriendHub</h1>
-  <div *ngIf="!user">
-    <button class="bx--btn bx--btn--secondary" type="button" data-modal-target="#signup">
-      Sign Up
-    </button>
-    <button class="bx--btn bx--btn--secondary ml-3" type="button" (click)="login()">Log In</button>
+  <div *ngIf="auth.user | async as user">
+    {{ user.email }}
   </div>
-  <div *ngIf="!!user">
-    <button class="bx--btn bx--btn--secondary" type="button">Log Out</button>
+  <div *ngIf="auth.user | async; else signuplogin">
+    <button class="bx--btn bx--btn--secondary" type="button" (click)="logout()">Log Out</button>
   </div>
+  <ng-template #signuplogin>
+    <div>
+      <button class="bx--btn bx--btn--secondary" type="button" data-modal-target="#signup">
+        Sign Up
+      </button>
+      <button class="bx--btn bx--btn--secondary ml-3" type="button" (click)="login()">
+        Log In
+      </button>
+    </div>
+  </ng-template>
 </nav>
+
+<div *ngIf="friends | async as friendList">
+  <ul>
+    <li *ngFor="let friend of friendList">{{ friend.firstName }} {{ friend.lastName }}</li>
+  </ul>
+</div>
 
 <app-signup></app-signup>
