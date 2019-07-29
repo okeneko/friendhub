@@ -1,17 +1,19 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, HostListener, ViewChild, AfterViewInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Modal } from 'carbon-components';
 
 import { User, AuthService } from '../auth.service';
-import { FriendService } from '../../friend.service';
+import { FormModalComponent } from 'src/app/modal/form-modal/form-modal.component';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, AfterViewInit {
+  @ViewChild(FormModalComponent, { static: true }) formModal: FormModalComponent;
+
   modal: any;
   signUpForm: FormGroup;
   submitted: boolean;
@@ -19,15 +21,9 @@ export class SignUpComponent implements OnInit {
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png';
   photos = [];
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private friendService: FriendService
-  ) {}
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit() {
-    Modal.init();
-    this.modal = Modal.create(document.getElementById('signup'));
     this.submitted = false;
     this.signUpForm = this.fb.group(
       {
@@ -41,6 +37,14 @@ export class SignUpComponent implements OnInit {
       },
       { validator: this.passwordMatch }
     );
+  }
+
+  ngAfterViewInit(): void {
+    this.modal = this.formModal.modal;
+  }
+
+  close() {
+    this.modal.hide();
   }
 
   public get f() {
@@ -74,6 +78,7 @@ export class SignUpComponent implements OnInit {
 
   getRandomNumber() {
     const num = Math.floor(Math.random() * 99);
+    // If the number is already in the photos array, randomize another one.
     return this.photos.map(({ id }) => id).includes(num) ? this.getRandomNumber() : num;
   }
 
@@ -122,7 +127,6 @@ export class SignUpComponent implements OnInit {
         this.f.email.setErrors({ notExists: true });
       }
     }
-    // IDEA: modal with loading that displays either error or success!
   }
 
   @HostListener('modal-hidden', ['$event'])

@@ -1,1 +1,9 @@
-<p>login works!</p>
+<app-form-modal
+  modalId="login"
+  headerText="Log In"
+  [formGroup]="loginForm"
+  (modalFormSubmit)="login()"
+  submitText="Log In"
+>
+  hello there
+</app-form-modal>

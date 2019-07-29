@@ -17,9 +17,10 @@ import { SignUpComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
 
 import { Close16Module } from '@carbon/icons-angular/lib/close/16.js';
+import { FormModalComponent } from './modal/form-modal/form-modal.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, SignUpComponent, LoginComponent],
+  declarations: [AppComponent, NavbarComponent, SignUpComponent, LoginComponent, FormModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
