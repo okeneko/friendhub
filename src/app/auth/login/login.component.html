@@ -5,5 +5,55 @@
   (modalFormSubmit)="login()"
   submitText="Log In"
 >
-  hello there
+  <div class="bx--form-item mb-4">
+    <label for="email" class="bx--label">Email<span class="text-red-600">*</span></label>
+    <div class="bx--form__helper-text text-red-600">
+      <span *ngIf="submitted && f.email.hasError('required')">
+        Email is required.
+      </span>
+      <span *ngIf="submitted && f.email.hasError('email')">
+        The value inserted is not an email.
+      </span>
+    </div>
+    <input
+      type="email"
+      formControlName="email"
+      [ngClass]="{
+        'bx--text-input': true,
+        'border-red-600':
+          submitted &&
+          (f.email.hasError('email') ||
+            f.email.hasError('required') ||
+            f.email.hasError('loginError'))
+      }"
+      id="email"
+      placeholder="Email"
+      [attr.disabled]="disabled"
+    />
+  </div>
+  <div class="bx--form-item mb-4">
+    <label for="password" class="bx--label">Password<span class="text-red-600">*</span></label>
+    <div class="bx--form__helper-text text-red-600">
+      <span *ngIf="submitted && f.password.hasError('required')">
+        Password is required
+      </span>
+    </div>
+    <input
+      type="password"
+      formControlName="password"
+      [ngClass]="{
+        'bx--text-input': true,
+        'border-red-600':
+          submitted && (f.password.hasError('required') || f.email.hasError('loginError'))
+      }"
+      id="password"
+      placeholder="Password"
+      [attr.disabled]="disabled"
+    />
+  </div>
+  <div class="flex justify-center bx--form__helper-text text-red-600">
+    <span *ngIf="submitted && f.email.hasError('loginError')">
+      The inserted email or password is not correct.
+    </span>
+  </div>
 </app-form-modal>

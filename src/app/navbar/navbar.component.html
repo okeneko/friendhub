@@ -1,6 +1,37 @@
-<nav class="flex justify-between items-center flex-wrap p-3">
-  <h1 class="text-3xl mr-3">FriendHub</h1>
-  <div *ngIf="auth.user | async as user">
+<header
+  class="flex items-center flex-wrap md:pl-16 md:pr-0 md:py-0 px-8 py-4 bg-gray-900 text-white"
+>
+  <div class="flex-1 flex justify-between items-center">
+    <a routerLink="/" class="font-bold text-4xl">FriendHub</a>
+  </div>
+  <input type="checkbox" id="menu-toggle" class="hidden" />
+  <label for="menu-toggle" class="cursor-pointer md:hidden block">
+    <ibm-icon-menu32 class="fill-current"></ibm-icon-menu32>
+  </label>
+  <div class="hidden md:flex md:items-center md:w-auto w-full" id="menu">
+    <nav>
+      <ul class="md:flex items-center justify-between text-lg text-white pt-4 md:pt-0">
+        <ng-container *ngIf="auth.user | async as user; else signuplogin">
+          <li>
+            <span class="hidden md:block md:px-4">Hello, {{ user.firstName }}!</span>
+          </li>
+          <li>
+            <img
+              [src]="user.photoURL"
+              alt="avi"
+              class="hidden md:block rounded-full w-10 h-10 mr-2"
+            />
+          </li>
+          <li><app-navbar-item (click)="logout()" name="Log Out"></app-navbar-item></li>
+        </ng-container>
+        <ng-template #signuplogin>
+          <li><app-navbar-item link="/signup" name="Sign Up"></app-navbar-item></li>
+          <li><app-navbar-item link="/login" name="Log In"></app-navbar-item></li>
+        </ng-template>
+      </ul>
+    </nav>
+  </div>
+  <!-- <div *ngIf="auth.user | async as user">
     {{ user.email }}
   </div>
   <div *ngIf="auth.user | async; else signuplogin">
@@ -8,21 +39,18 @@
   </div>
   <ng-template #signuplogin>
     <div>
-      <button class="bx--btn bx--btn--secondary" type="button" data-modal-target="#signup">
+      <a routerLink="/signup" class="bx--btn bx--btn--secondary">
         Sign Up
-      </button>
-      <button class="bx--btn bx--btn--secondary ml-3" type="button" data-modal-target="#login">
+      </a>
+      <a routerLink="/login" class="bx--btn bx--btn--secondary ml-3">
         Log In
-      </button>
+      </a>
     </div>
-  </ng-template>
-</nav>
+  </ng-template> -->
+</header>
 
 <div *ngIf="friends | async as friendList">
   <ul>
     <li *ngFor="let friend of friendList">{{ friend.firstName }} {{ friend.lastName }}</li>
   </ul>
 </div>
-
-<app-signup></app-signup>
-<app-login></app-login>

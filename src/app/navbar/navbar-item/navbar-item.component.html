@@ -1,0 +1,10 @@
+<ng-container *ngIf="!!link; else noLink">
+  <a [routerLink]="link" class="md:p-6 py-4 block bg-gray-900 md:hover:bg-gray-800">
+    {{ name }}
+  </a>
+</ng-container>
+<ng-template #noLink>
+  <a class="md:p-6 p-4 block bg-gray-900 md:hover:bg-gray-800 cursor-pointer">
+    {{ name }}
+  </a>
+</ng-template>

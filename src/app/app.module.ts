@@ -15,12 +15,21 @@ import { environment } from '../environments/environment';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignUpComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
-
-import { Close16Module } from '@carbon/icons-angular/lib/close/16.js';
 import { FormModalComponent } from './modal/form-modal/form-modal.component';
 
+import { Close16Module } from '@carbon/icons-angular/lib/close/16.js';
+import { Menu32Module } from '@carbon/icons-angular/lib/menu/32.js';
+import { NavbarItemComponent } from './navbar/navbar-item/navbar-item.component';
+
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, SignUpComponent, LoginComponent, FormModalComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    SignUpComponent,
+    LoginComponent,
+    FormModalComponent,
+    NavbarItemComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -29,7 +38,8 @@ import { FormModalComponent } from './modal/form-modal/form-modal.component';
     AngularFireAuthModule,
     AngularFirestoreModule,
     ReactiveFormsModule,
-    Close16Module
+    Close16Module,
+    Menu32Module
   ],
   providers: [],
   bootstrap: [AppComponent]

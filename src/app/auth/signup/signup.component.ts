@@ -1,10 +1,9 @@
 import { Component, OnInit, HostListener, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Modal } from 'carbon-components';
+import { FormModalComponent } from 'src/app/modal/form-modal/form-modal.component';
 
 import { User, AuthService } from '../auth.service';
-import { FormModalComponent } from 'src/app/modal/form-modal/form-modal.component';
 
 @Component({
   selector: 'app-signup',
@@ -17,6 +16,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
   modal: any;
   signUpForm: FormGroup;
   submitted: boolean;
+  disabled: boolean;
   defaultPhoto =
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png';
   photos = [];
@@ -25,6 +25,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.submitted = false;
+    this.disabled = null;
     this.signUpForm = this.fb.group(
       {
         firstName: ['', Validators.required],
@@ -41,10 +42,6 @@ export class SignUpComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.modal = this.formModal.modal;
-  }
-
-  close() {
-    this.modal.hide();
   }
 
   public get f() {
@@ -106,6 +103,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     if (this.signUpForm.invalid) {
       return;
     }
+    this.disabled = true;
 
     const url =
       this.f.photo.value === ''
@@ -124,6 +122,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
       this.modal.hide();
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
+        this.disabled = null;
         this.f.email.setErrors({ notExists: true });
       }
     }
@@ -135,6 +134,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
       gender: ''
     });
     this.submitted = false;
+    this.disabled = null;
     this.photos.length = 0;
   }
 }

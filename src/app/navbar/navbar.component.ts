@@ -29,10 +29,6 @@ export class NavbarComponent implements OnInit {
     );
   }
 
-  async login() {
-    await this.auth.login('trixie@wow.co', 'trixiemattel');
-  }
-
   async logout() {
     await this.auth.logout();
   }
