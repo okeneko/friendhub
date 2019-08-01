@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, first } from 'rxjs/operators';
 import { Friend, FriendService } from '../friend.service';
 
 export interface User {

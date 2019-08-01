@@ -1,5 +1,5 @@
 <header
-  class="flex items-center flex-wrap md:pl-16 md:pr-0 md:py-0 px-8 py-4 bg-gray-900 text-white"
+  class="flex items-center flex-wrap md:pl-16 md:pr-0 md:py-0 px-8 py-4 bg-gray-900 text-white z-10"
 >
   <div class="flex-1 flex justify-between items-center">
     <a routerLink="/" class="font-bold text-4xl">FriendHub</a>
@@ -31,26 +31,4 @@
       </ul>
     </nav>
   </div>
-  <!-- <div *ngIf="auth.user | async as user">
-    {{ user.email }}
-  </div>
-  <div *ngIf="auth.user | async; else signuplogin">
-    <button class="bx--btn bx--btn--secondary" type="button" (click)="logout()">Log Out</button>
-  </div>
-  <ng-template #signuplogin>
-    <div>
-      <a routerLink="/signup" class="bx--btn bx--btn--secondary">
-        Sign Up
-      </a>
-      <a routerLink="/login" class="bx--btn bx--btn--secondary ml-3">
-        Log In
-      </a>
-    </div>
-  </ng-template> -->
 </header>
-
-<div *ngIf="friends | async as friendList">
-  <ul>
-    <li *ngFor="let friend of friendList">{{ friend.firstName }} {{ friend.lastName }}</li>
-  </ul>
-</div>

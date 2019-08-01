@@ -20,6 +20,9 @@ module.exports = {
       },
       flex: {
         half: "1 0 50%"
+      },
+      zIndex: {
+        '-10': '-10'
       }
     }
   },

@@ -20,6 +20,8 @@ import { FormModalComponent } from './modal/form-modal/form-modal.component';
 import { Close16Module } from '@carbon/icons-angular/lib/close/16.js';
 import { Menu32Module } from '@carbon/icons-angular/lib/menu/32.js';
 import { NavbarItemComponent } from './navbar/navbar-item/navbar-item.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { NavbarItemComponent } from './navbar/navbar-item/navbar-item.component'
     SignUpComponent,
     LoginComponent,
     FormModalComponent,
-    NavbarItemComponent
+    NavbarItemComponent,
+    DashboardComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
